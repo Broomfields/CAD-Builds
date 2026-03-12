@@ -1,22 +1,22 @@
 ---
 title: "Rocket Booster Bracket"
 description: "Custom two-part motor mount designed to hold locally available boosters in a rocket chassis built for larger ones."
-date: "2026-03-11"
-cover: "01_model_original.jpeg"
+date: "2021-07-31"
+cover: "02-model-cap.jpeg"
 tags: ["openscad", "3d-printing", "rocketry"]
 cad_tool: "OpenSCAD"
 status: "complete"
 files:
-  - name: "rocket-top.stl"
-    label: "Bracket — STL"
-  - name: "rocket-bottom.stl"
-    label: "Bracket Base — STL"
-  - name: "rocket-top.scad"
-    label: "Bracket — OpenSCAD Source"
-  - name: "rocket-bottom.scad"
-    label: "Bracket Base — OpenSCAD Source"
-  - name: "rocket-misc.scad"
-    label: "Shared Variables — OpenSCAD Source"
+  - name: "rocket-cap.stl"
+    label: "Bracket Cap — STL"
+  - name: "rocket-brace.stl"
+    label: "Bracket Brace — STL"
+  - name: "rocket-cap.scad"
+    label: "Bracket Cap — OpenSCAD Source"
+  - name: "rocket-brace.scad"
+    label: "Bracket Brace — OpenSCAD Source"
+  - name: "rocket-study.scad"
+    label: "Bracket Study — OpenSCAD Source"
 ---
 
 The rocket we were launching was designed for larger booster motors than we could get locally. Rather than redesign the whole chassis, I modelled a custom two-part motor mount to hold the smaller available boosters securely in their place.
@@ -27,9 +27,9 @@ The mount is a two-part assembly. The bracket is a flat cylinder with two bored 
 
 ## Gallery
 
-![Bracket — front view](01_model_original.png)
-![Bracket — three-quarter view](02_model_cap.jpeg)
-![Bracket base — retaining lip visible](03_model_base.jpeg)
-![Launch rig](04_rig.jpeg)
-![Rocket body](05_rocket_base.jpeg)
-![Rocket assembled and ready](06_rocket.jpeg)
+![Bracket — Cap Study, recreating original booster cap as a model](01-model-study.png)
+![Bracket — Cap, this braces the top of the boosters, and has a cap to hold them in the bracket](02-model-cap.jpeg)
+![Bracket — Brace, this is braces the bottom of the boosters and acts as the rocket base](03-model-brace.jpeg)
+![Launch rig](04-rig.jpeg)
+![Rocket body](05-rocket-base.jpeg)
+![Rocket assembled and ready](06-rocket.jpeg)
