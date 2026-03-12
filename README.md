@@ -1,2 +1,2 @@
-# CAD-Builds
-This is where I host my CAD builds, and other related projects, for displaying on my personal site.
+# PS-CMS-Builds
+This repo manages basic documentation and media for my CAD designs. Each 'Build' is defined by a Markdown file whose front matter is compiled into a release manifest, allowing the site to dynamically render project cards and build logs.
