@@ -1,0 +1,42 @@
+name: Generate Build Manifest
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-manifest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Generate manifest.json
+        run: python3 .github/scripts/generate_manifest.py
+
+      - name: Upload manifest to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Delete the existing manifest release/tag if it exists, then recreate cleanly
+          gh release delete builds-manifest --yes 2>/dev/null || true
+          git push origin :refs/tags/builds-manifest 2>/dev/null || true
+
+          gh release create builds-manifest manifest.json \
+            --title "Build Manifest" \
+            --notes "Auto-generated on $(date -u '+%Y-%m-%d %H:%M UTC') from build frontmatter." \
+            --latest=false
