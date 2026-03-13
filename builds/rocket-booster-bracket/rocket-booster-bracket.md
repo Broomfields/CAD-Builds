@@ -6,6 +6,8 @@ cover: "images/02-model-cap.jpeg"
 tags: ["openscad", "3d-printing", "rocketry"]
 cad_tool: "OpenSCAD"
 status: "complete"
+subpages:
+  - "print-settings"
 files:
   - name: "rocket-cap.stl"
     label: "Bracket Cap — STL"
@@ -20,6 +22,8 @@ files:
 ---
 
 The rocket we were launching was designed for larger booster motors than we could get locally. Rather than redesign the whole chassis, I modelled a custom two-part motor mount to hold the smaller available boosters securely in their place.
+
+See [Print Settings](print-settings) for slicer configuration.
 
 ## Design
 

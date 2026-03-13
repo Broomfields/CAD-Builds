@@ -26,7 +26,7 @@ OUTPUT_FILE = REPO_ROOT / "manifest.json"
 
 # Frontmatter fields to include in each card entry.
 # 'files' is intentionally excluded — it belongs to the full build page, not the card.
-CARD_FIELDS = ["title", "description", "date", "cover", "tags", "cad_tool", "status"]
+CARD_FIELDS = ["title", "description", "date", "cover", "tags", "cad_tool", "status", "subpages"]
 
 
 def parse_frontmatter(md_path: Path) -> dict | None:
