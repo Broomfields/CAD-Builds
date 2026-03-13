@@ -2,8 +2,8 @@
 title: "Cable Grommet"
 description: "A custom-fitted desk cable management solution designed for specific workspace utility and 3D printing."
 date: "2021"
-cover: "images/01-grommet.jpeg"
-tags: ["3d-printing", "office-utility", "organization"]
+cover: "images/01-grommet.png"
+tags: ["openscad", "3d-printing", "office-utility", "organization"]
 cad_tool: "OpenSCAD"
 status: "complete"
 files:
@@ -25,5 +25,5 @@ The grommet is a two-part assembly consisting of a main sleeve and a removable l
 
 ## Gallery
 
-![Cable Grommet — Base model study](images/01-grommet.jpeg)
-![Cable Grommet Lid — Detailed view of the cap and slot](images/02-grommet-lid.jpeg)
+![Cable Grommet — Base model study](images/01-grommet.png)
+![Cable Grommet Lid — Detailed view of the cap and slot](images/02-grommet-lid.png)
