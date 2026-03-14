@@ -19,10 +19,14 @@ The stable manifest URL is always:
 https://github.com/Broomfields/PS-CMS-Builds/releases/download/builds-manifest/manifest.json
 ```
 
-Raw assets (images, STL files, etc.) are served directly from the repo:
+Raw assets are served directly from the repo:
 
 ```
-https://raw.githubusercontent.com/Broomfields/PS-CMS-Builds/main/builds/{slug}/{filename}
+# Images
+https://raw.githubusercontent.com/Broomfields/PS-CMS-Builds/main/builds/{slug}/images/{filename}
+
+# Downloadable files (STL, SCAD, etc.)
+https://raw.githubusercontent.com/Broomfields/PS-CMS-Builds/main/builds/{slug}/files/{filename}
 ```
 
 ### Running the manifest generator locally
@@ -70,6 +74,39 @@ The manifest generator resolves bare names to full relative paths (e.g. `images/
 
 ---
 
+## Files convention
+
+All downloadable assets (STL, SCAD, etc.) for a build live in a `files/` subdirectory inside the build folder:
+
+```
+builds/my-new-widget/
+├── files/
+│   ├── 01-part.stl
+│   ├── 02-part-lid.stl
+│   └── 03-part.scad
+└── my-new-widget.md
+```
+
+**Rules:**
+
+- Every file must have a **unique stem** (filename without extension) regardless of extension.
+- Use a **two-digit numeric prefix** to control display order: `01-`, `02-`, `03-`, etc.
+- In frontmatter, `files` uses **bare names only** — no path, no extension:
+
+```yaml
+files:
+  - name: "01-part"
+    label: "Part — STL"
+  - name: "02-part-lid"
+    label: "Part Lid — STL"
+  - name: "03-part"
+    label: "Part — OpenSCAD Source"
+```
+
+The manifest generator resolves bare names to full relative paths (e.g. `files/01-part.stl`) at build time by scanning the `files/` subdirectory. A warning is printed if a name cannot be resolved.
+
+---
+
 ## Frontmatter field reference
 
 All fields are written in the YAML frontmatter block at the top of the main page Markdown file.
@@ -90,7 +127,7 @@ All fields are written in the YAML frontmatter block at the top of the main page
 | `links` | list of `{label, url}` | no | External appearances — Thingiverse, Printables, MakerWorld, etc. |
 | `credits` | list of `{label, author, url, license}` | no | Third-party assets or designs used. `license` key is optional within each entry. |
 | `subpages` | list of strings | no | Bare filename stems of sub-page Markdown files in the same folder (see below). |
-| `files` | list of objects | no | Downloadable assets. Each entry has `name` (filename) and `label` (display text). Not included in the manifest — only used on the full build page. |
+| `files` | list of `{name, label}` | no | Downloadable assets. Each entry is a bare name (resolved to a full path in the manifest) with a descriptive label. Files live in the `files/` subdirectory and use the same two-digit prefix convention as images. |
 
 ### `gallery` entry shape
 
@@ -130,11 +167,13 @@ credits:
 
 ```yaml
 files:
-  - name: "part.stl"
+  - name: "01-part"
     label: "Part — STL"
-  - name: "part.scad"
+  - name: "02-part"
     label: "Part — OpenSCAD Source"
 ```
+
+In the manifest, each entry is resolved to `{ "src": "files/01-part.stl", "label": "..." }`.
 
 ---
 

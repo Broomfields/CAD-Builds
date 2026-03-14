@@ -22,18 +22,23 @@ cad_tool: "OpenSCAD"
 status: "complete"
 license: "CC BY-SA 4.0"
 featured: true
+links:
+  - label: "Printables"
+    url: "https://www.printables.com"
+  - label: "Thingiverse"
+    url: "https://www.thingiverse.com"
 subpages:
   - "print-settings"
 files:
-  - name: "rocket-cap.stl"
+  - name: "01-rocket-cap"
     label: "Bracket Cap — STL"
-  - name: "rocket-brace.stl"
+  - name: "02-rocket-brace"
     label: "Bracket Brace — STL"
-  - name: "rocket-cap.scad"
+  - name: "03-rocket-cap"
     label: "Bracket Cap — OpenSCAD Source"
-  - name: "rocket-brace.scad"
+  - name: "04-rocket-brace"
     label: "Bracket Brace — OpenSCAD Source"
-  - name: "rocket-study.scad"
+  - name: "05-rocket-study"
     label: "Bracket Study — OpenSCAD Source"
 ---
 

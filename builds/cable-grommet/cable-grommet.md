@@ -14,13 +14,13 @@ cad_tool: "OpenSCAD"
 status: "complete"
 license: "CC BY-SA 4.0"
 files:
-  - name: "grommet.stl"
+  - name: "01-grommet"
     label: "Grommet Base — STL"
-  - name: "grommet-lid.stl"
+  - name: "02-grommet-lid"
     label: "Grommet Lid — STL"
-  - name: "grommet.scad"
+  - name: "03-grommet"
     label: "Grommet Base — OpenSCAD Source"
-  - name: "grommet-lid.scad"
+  - name: "04-grommet-lid"
     label: "Grommet Lid — OpenSCAD Source"
 ---
 
