@@ -26,7 +26,22 @@ OUTPUT_FILE = REPO_ROOT / "manifest.json"
 
 # Frontmatter fields to include in each card entry.
 # 'files' is intentionally excluded — it belongs to the full build page, not the card.
-CARD_FIELDS = ["title", "description", "date", "cover", "tags", "cad_tool", "status", "subpages"]
+CARD_FIELDS = [
+    "title",
+    "description",
+    "date",
+    "cover",
+    "cover_alt",
+    "gallery",
+    "status",
+    "featured",
+    "tags",
+    "cad_tool",
+    "license",
+    "links",
+    "credits",
+    "subpages",
+]
 
 
 def parse_frontmatter(md_path: Path) -> dict | None:
@@ -55,7 +70,30 @@ def parse_frontmatter(md_path: Path) -> dict | None:
         return None
 
 
-def build_card(slug: str, frontmatter: dict) -> dict:
+def resolve_image(build_dir: Path, bare_name: str) -> str | None:
+    """
+    Given a bare image name (no extension, no path), find the matching file
+    in the build's images/ subdirectory and return its relative path
+    (e.g. 'images/02-model-cap.jpeg').
+    Returns None and prints a warning if no match is found.
+    Multiple files with the same stem are an error — the convention requires
+    unique names regardless of extension.
+    """
+    images_dir = build_dir / "images"
+    if not images_dir.is_dir():
+        print(f"  [warn] No images/ directory in {build_dir.name} — cannot resolve '{bare_name}'")
+        return None
+    matches = [f for f in images_dir.iterdir() if f.is_file() and f.stem == bare_name]
+    if not matches:
+        print(f"  [warn] Image not found for bare name '{bare_name}' in {build_dir.name}/images/")
+        return None
+    if len(matches) > 1:
+        names = ", ".join(f.name for f in matches)
+        print(f"  [warn] Multiple files match '{bare_name}' in {build_dir.name}/images/: {names} — using first")
+    return f"images/{matches[0].name}"
+
+
+def build_card(slug: str, frontmatter: dict, build_dir: Path) -> dict:
     """Build a single card entry from a slug and its parsed frontmatter."""
     card = {"slug": slug}
     for field in CARD_FIELDS:
@@ -64,6 +102,20 @@ def build_card(slug: str, frontmatter: dict) -> dict:
             # Normalise date to ISO string for consistent JSON serialisation
             if field == "date" and hasattr(value, "isoformat"):
                 value = value.isoformat()
+            elif field == "cover" and isinstance(value, str):
+                value = resolve_image(build_dir, value) or value
+            elif field == "gallery" and isinstance(value, list):
+                resolved = []
+                for entry in value:
+                    if isinstance(entry, dict):
+                        name = entry.get("name", "")
+                        resolved.append({
+                            "src": resolve_image(build_dir, name) or name,
+                            "label": entry.get("label", ""),
+                        })
+                    else:
+                        resolved.append({"src": resolve_image(build_dir, entry) or entry})
+                value = resolved
             card[field] = value
     return card
 
@@ -93,7 +145,7 @@ def main():
         if frontmatter is None:
             continue
 
-        card = build_card(slug, frontmatter)
+        card = build_card(slug, frontmatter, build_dir)
         builds.append(card)
 
     # Sort newest first; fall back gracefully if 'date' is missing

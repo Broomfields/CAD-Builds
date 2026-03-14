@@ -16,13 +16,13 @@ This repo manages documentation and media for CAD design builds. Each build is a
 The stable manifest URL is always:
 
 ```
-https://github.com/Broomfields/CAD-Builds/releases/download/builds-manifest/manifest.json
+https://github.com/Broomfields/PS-CMS-Builds/releases/download/builds-manifest/manifest.json
 ```
 
 Raw assets (images, STL files, etc.) are served directly from the repo:
 
 ```
-https://raw.githubusercontent.com/Broomfields/CAD-Builds/main/builds/{slug}/{filename}
+https://raw.githubusercontent.com/Broomfields/PS-CMS-Builds/main/builds/{slug}/{filename}
 ```
 
 ### Running the manifest generator locally
@@ -31,6 +31,42 @@ https://raw.githubusercontent.com/Broomfields/CAD-Builds/main/builds/{slug}/{fil
 pip install pyyaml
 python .github/scripts/generate_manifest.py
 ```
+
+---
+
+## Image convention
+
+All images for a build live in an `images/` subdirectory inside the build folder:
+
+```
+builds/my-new-widget/
+├── images/
+│   ├── 01-overview.png
+│   ├── 02-detail.jpeg
+│   └── 03-printed.jpeg
+└── my-new-widget.md
+```
+
+**Rules:**
+
+- Every image must have a **unique stem** (filename without extension) regardless of extension.
+- Use a **two-digit numeric prefix** to control display order: `01-`, `02-`, `03-`, etc.
+- Rename screenshots and exports when adding them — don't keep CAD tool or OS-generated filenames.
+- In frontmatter, `cover` and `gallery` use **bare names only** — no path, no extension:
+
+```yaml
+cover: "02-detail"
+cover_alt: "Descriptive alt text for the cover image"
+gallery:
+  - name: "01-overview"
+    label: "Overview of the assembled part"
+  - name: "02-detail"
+    label: "Close-up of the mounting geometry"
+  - name: "03-printed"
+    label: "Finished print on the bench"
+```
+
+The manifest generator resolves bare names to full relative paths (e.g. `images/02-detail.jpeg`) at build time by scanning the `images/` subdirectory. A warning is printed if a name cannot be resolved.
 
 ---
 
@@ -43,12 +79,52 @@ All fields are written in the YAML frontmatter block at the top of the main page
 | `title` | string | yes | Display name of the build. |
 | `description` | string | yes | One-sentence summary shown on the project card. |
 | `date` | `YYYY-MM-DD` | yes | Completion or publish date. Used to sort the manifest (newest first). |
-| `cover` | string | yes | Relative path to the cover image (e.g. `images/01-cover.png`). |
+| `cover` | bare image name | yes | Cover image shown on the project card. Use bare name — the generator resolves the extension (e.g. `"02-model-cap"`). |
+| `cover_alt` | string | yes | Descriptive alt text for the cover image, used by screen readers and as a fallback. Should describe what is shown, not repeat the build title. |
+| `gallery` | list of `{name, label}` | no | Ordered screenshots/renders for a gallery. Each entry is a bare name (resolved to a full path in the manifest) with a descriptive label for use as alt text or a caption. |
+| `status` | string | no | Build status: `"complete"`, `"wip"`, or `"archived"`. |
+| `featured` | boolean | no | Pin this build as featured (`true` / `false`). |
 | `tags` | list of strings | no | Freeform tags for filtering (e.g. `["openscad", "3d-printing"]`). |
 | `cad_tool` | string | no | Primary CAD application used (e.g. `"OpenSCAD"`, `"Fusion 360"`). |
-| `status` | string | no | Build status: `"complete"`, `"wip"`, or `"archived"`. |
+| `license` | string | no | SPDX or Creative Commons identifier for the design (e.g. `"CC BY-SA 4.0"`, `"CC0"`). |
+| `links` | list of `{label, url}` | no | External appearances — Thingiverse, Printables, MakerWorld, etc. |
+| `credits` | list of `{label, author, url, license}` | no | Third-party assets or designs used. `license` key is optional within each entry. |
 | `subpages` | list of strings | no | Bare filename stems of sub-page Markdown files in the same folder (see below). |
 | `files` | list of objects | no | Downloadable assets. Each entry has `name` (filename) and `label` (display text). Not included in the manifest — only used on the full build page. |
+
+### `gallery` entry shape
+
+```yaml
+gallery:
+  - name: "01-overview"
+    label: "Overview of the assembled part"
+  - name: "02-detail"
+    label: "Close-up of the mounting geometry"
+  - name: "03-printed"
+    label: "Finished print on the bench"
+```
+
+In the manifest, each entry is resolved to `{ "src": "images/01-overview.png", "label": "..." }`.
+
+### `links` entry shape
+
+```yaml
+links:
+  - label: "Printables"
+    url: "https://www.printables.com/model/example"
+  - label: "Thingiverse"
+    url: "https://www.thingiverse.com/thing:example"
+```
+
+### `credits` entry shape
+
+```yaml
+credits:
+  - label: "Original bracket design"
+    author: "Someone"
+    url: "https://www.printables.com/model/original"
+    license: "CC BY 4.0"
+```
 
 ### `files` entry shape
 
