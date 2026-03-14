@@ -15,13 +15,13 @@ status: "complete"
 license: "CC BY-SA 4.0"
 files:
   - name: "01-grommet"
-    label: "Grommet Base — STL"
-  - name: "02-grommet-lid"
-    label: "Grommet Lid — STL"
-  - name: "03-grommet"
     label: "Grommet Base — OpenSCAD Source"
-  - name: "04-grommet-lid"
+  - name: "02-grommet-lid"
     label: "Grommet Lid — OpenSCAD Source"
+  - name: "03-grommet-model"
+    label: "Grommet Base — STL"
+  - name: "04-grommet-lid-model"
+    label: "Grommet Lid — STL"
 ---
 
 After seeing the workshop team use 3D printers to create COVID-19 desk dividers and standard cable grommets for the office, I noticed the existing models didn't quite fit my specific desk requirements. I designed this custom version to better suit my cable management needs.

@@ -31,13 +31,13 @@ subpages:
   - "print-settings"
 files:
   - name: "01-rocket-cap"
-    label: "Bracket Cap — STL"
-  - name: "02-rocket-brace"
-    label: "Bracket Brace — STL"
-  - name: "03-rocket-cap"
     label: "Bracket Cap — OpenSCAD Source"
-  - name: "04-rocket-brace"
+  - name: "02-rocket-brace"
     label: "Bracket Brace — OpenSCAD Source"
+  - name: "03-rocket-cap-model"
+    label: "Bracket Cap — STL"
+  - name: "04-rocket-brace-model"
+    label: "Bracket Brace — STL"
   - name: "05-rocket-study"
     label: "Bracket Study — OpenSCAD Source"
 ---
