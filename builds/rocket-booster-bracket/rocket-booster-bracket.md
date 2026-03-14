@@ -21,6 +21,7 @@ tags: ["openscad", "3d-printing", "rocketry"]
 cad_tool: "OpenSCAD"
 status: "complete"
 license: "CC BY-SA 4.0"
+featured: true
 subpages:
   - "print-settings"
 files:
